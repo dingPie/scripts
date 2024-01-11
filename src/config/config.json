@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "vkdl12",
+    "database": "dev-everyones-refrigerator",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": true
+  },
+  "production": {
+    "username": "root",
+    "password": "vkdl1216",
+    "database": "everyones_refrigerator",
+    "host": "everyones-refrigerator-db.cxt46emmszaa.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "logging": true
+  },
+  "test": {
+    "username": "root",
+    "password": "vkdl1216",
+    "database": "everyones_refrigerator",
+    "host": "everyones-refrigerator-db.cxt46emmszaa.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "logging": true
+  }
+}
