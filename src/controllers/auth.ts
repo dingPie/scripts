@@ -15,21 +15,20 @@ export const login = async (
 ) => {
   // 로그인 로직
   // P_TODO: client에서 뭘 보낼지는 로직이 변경될 수 있음.
-  const { userLoginId, provider, providerUid, fcmToken } = req.body;
-  if (!(userLoginId && provider && providerUid)) {
+  const { userLoginId, provider, fcmToken } = req.body;
+  if (!(userLoginId && provider)) {
     return res.status(404).json({
       code: 404,
       message: "필수 값이 없습니다.", // 재로그인 해야함.
     });
   }
   let user = await User.findOne({
-    where: { userLoginId, provider, providerUid },
+    where: { userLoginId, provider },
   });
   const refreshToken = getRefreshToken({});
   if (!user) {
     user = await User.create({
       provider,
-      providerUid,
       userLoginId,
       refreshToken, // 리프레시 토큰도 DB에 저장.
       fcmToken,

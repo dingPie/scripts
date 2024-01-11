@@ -10,8 +10,8 @@ import { sequelize } from "./models";
 import passport from "passport";
 import authRouter from "./routes/auth";
 
-import { firebaseApp } from "./firebase";
-import { lunchSchedule } from "./schedule";
+// import { firebaseApp } from "./firebase";
+// import { testSchedule } from "./schedule";
 
 dotenv.config();
 
@@ -20,16 +20,18 @@ export const app = express();
 
 app.set("port", process.env.PORT || 8080);
 
-firebaseApp; // firebase init
-lunchSchedule;
+// P_TODO: firebase 사용시 주석 해제 후 사용
+// firebaseApp; // firebase init
+// testSchedule;
 
-sequelize
-  // alter:true 의 경우 바꾼 부분만 변경함.
-  .sync({ force: false, alter: false }) // force: true 일 경우, 항상 BD를 재생성함
-  .then(() => console.log("DB 연결성공"))
-  .catch((err) => {
-    console.log("DB 연결 에러: ", err);
-  });
+// P_TODO: 연결될 DB가 정해졌다면 주석을 풀어 사용
+// sequelize
+//   // alter:true 의 경우 바꾼 부분만 변경함.
+//   .sync({ force: false, alter: false }) // force: true 일 경우, 항상 BD를 재생성함
+//   .then(() => console.log("DB 연결성공"))
+//   .catch((err) => {
+//     console.log("DB 연결 에러: ", err);
+//   });
 
 /**
  * middleware
@@ -38,17 +40,20 @@ sequelize
 const margonMode = process.env.NODE_ENV === "production" ? "combined" : "dev";
 app.use(morgan(margonMode));
 
+// P_TODO: cookie parser session 의 경우는 내가 사용법을 정확히 익힐 필요가 있다. 
 // cookie-parser
 app.use(cookieParser(process.env.SECRET_KEY || ""));
 
 // express-session
 app.use(defaultSession);
 
+// P_TODO: passport 사용시 사용.
 // passport 초기화. session 설정 아래에 들어가야 한다.
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // static (요청경로, 실제경로)
+// P_TODO: 아마 이미지도 s3 or firbase로 받을거라 실제 필요할지 의문.
 app.use("/public", express.static(path.join(__dirname, "public"))); // 이건 next가 실행되지 않음. 때문에 다른 미들웨어보다 보통 위에 있어야 함.
 app.use(
   "/img",

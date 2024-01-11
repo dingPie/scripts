@@ -17,6 +17,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare provider: string;
   declare userLoginId: string; // 유저 로그인 아이디. email 로 대체될 수 있음.
   declare fcmToken: CreationOptional<string | null>;
+  declare refreshToken: CreationOptional<string | null>; // P_TODO: 임시 추가 값. redis 등으로 분리될 수 있음
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -35,6 +36,12 @@ export const initUser = (sequelize: Sequelize) => {
         type: DataTypes.STRING(USER_LOGIN_ID),
         allowNull: false, // 빈 값들은 중복이 가능
         field: "user_login_id",
+      },
+      // P_TODO: 임시 추가 값. redis 등으로 분리될 수 있음
+      refreshToken: {
+        type: DataTypes.STRING(TOKEN),
+        allowNull: true,
+        field: "fcm_token",
       },
       // FCM 발송을 위해 저장
       fcmToken: {

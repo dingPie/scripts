@@ -1,12 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import User from "../models/user";
 import dotenv from "dotenv";
 
 import { messaging } from "firebase-admin";
-
-import { Op } from "sequelize";
-
-import { getExpireCriteria } from "../utils/get-expire-criteria";
 
 dotenv.config();
 
