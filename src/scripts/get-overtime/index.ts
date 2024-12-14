@@ -22,10 +22,12 @@ export interface OvertimeHoursByPersonType {
 }
 
 const main = async ({
+  auth,
   owner,
   dateCount = 30,
   fileName = `./output/${Date.now()}_test`,
 }: {
+  auth: string;
   owner: string;
   dateCount?: number;
   fileName?: string;
@@ -43,7 +45,7 @@ const main = async ({
 
     console.log("초기화 성공...");
 
-    const repoList = await getRepoList({ dateCount });
+    const repoList = await getRepoList({ dateCount, auth });
 
     console.log(
       `repository 목록 받아오기 성공: ${repoList.length}개의 레포지토리`
@@ -52,6 +54,7 @@ const main = async ({
 
     const promiseCommit = repoList?.map(async (repo) => {
       const commits = await getCommitList({
+        auth,
         owner,
         repo,
         dateCount,
@@ -108,8 +111,11 @@ const main = async ({
 const OWNER = "TOKTOKHAN-DEV";
 const DATE_COUNT = 90;
 
-main({
-  owner: OWNER,
-  dateCount: DATE_COUNT,
-  fileName: `./output/${dayjs().format("YYYY-MM-DD")}_야근일지`,
-});
+if (process.env.GIT_ACCESS_TOKEN) {
+  main({
+    auth: process.env.GIT_ACCESS_TOKEN,
+    owner: OWNER,
+    dateCount: DATE_COUNT,
+    fileName: `./output/${dayjs().format("YYYY-MM-DD")}_야근일지`,
+  });
+}

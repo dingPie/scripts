@@ -2,15 +2,15 @@ import { Octokit } from "@octokit/rest";
 import dayjs from "dayjs";
 
 export const getRepoList = async ({
+  auth,
   filterFn,
   dateCount = 30,
 }: {
+  auth: string;
   filterFn?: (...args: any) => boolean;
   dateCount: number;
 }) => {
-  const octokit = new Octokit({
-    auth: process.env.GIT_ACCESS_TOKEN,
-  });
+  const octokit = new Octokit({ auth });
 
   try {
     const response = await octokit.request("GET /user/repos", {

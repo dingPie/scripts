@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface GetCommitProps {
+  auth: string;
   owner: string;
   repo: string;
   author?: string;
@@ -12,15 +13,14 @@ interface GetCommitProps {
 }
 
 export const getCommitList = async ({
+  auth,
   owner,
   repo,
   dateCount = 30,
   author,
 }: GetCommitProps) => {
   try {
-    const octokit = new Octokit({
-      auth: process.env.GIT_ACCESS_TOKEN,
-    });
+    const octokit = new Octokit({ auth });
     const since = dayjs().subtract(dateCount, "d").toISOString();
 
     const data = await octokit.paginate("GET /repos/{owner}/{repo}/commits", {
